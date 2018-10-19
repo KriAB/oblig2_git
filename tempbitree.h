@@ -610,6 +610,42 @@ public:
         root = newNode;
 
     }
+
+
+    void makeTreeFromGround2(int numberOfNodes)
+    {
+        unsigned int numberOfNodesLeft = static_cast<unsigned int>(numberOfNodes);
+
+        //Vector of pointers
+        std::vector<Node<int>* > NPtr;
+        NPtr.resize(static_cast<unsigned int>(numberOfNodes+1));
+
+        //Creates nodes from the bottom and upwards
+        while (numberOfNodesLeft > 0)
+        {
+            //Creates the node with the current highest index
+            NPtr[numberOfNodesLeft] = new Node<int>();
+            Node<int>* n = NPtr[numberOfNodesLeft];
+
+            //Sets the node's value to its index
+            n->data = static_cast<int>(numberOfNodesLeft);
+
+            //Connects the node to child nodes if they exist
+            if (((numberOfNodesLeft*2)+1) <= static_cast<unsigned int>(numberOfNodes)) //Checks if child node exists
+                n->right = NPtr[((numberOfNodesLeft*2)+1)];
+            if ((numberOfNodesLeft*2) <= static_cast<unsigned int>(numberOfNodes)) //Checks if child node exists
+                n->left = NPtr[(numberOfNodesLeft*2)];
+            if (numberOfNodesLeft <= 1)
+            {
+                //Creates the root
+                root = n;
+            }
+            --numberOfNodesLeft;
+        }
+    }
+
+
+
     //level order traversal
     void leveltrav()
     {
@@ -648,6 +684,8 @@ public:
     {
         return std::pow(2, treeDepth()) - 1;
     }
+
+
 
 private:
     int privateTreeDepth(Node<T>* &Ptr)
